@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EstatePassKey. The key to peace of mind.</title>
+<meta name="description" content="Everything your family needs to know. Finally, in one place. Join the list and receive our free guide: The 12 Things Your Family Will Need to Find, and How to Make Sure They Can.">
+<meta property="og:title" content="EstatePassKey. The key to peace of mind.">
+<meta property="og:description" content="Everything your family needs to know. Finally, in one place.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sage-deep:  #2D3E30;
+  --sage-mid:   #4A6B4E;
+  --sage:       #6B8C6E;
+  --sage-pale:  #C8D9C9;
+  --sage-mist:  #E8EDE6;
+  --ivory:      #F7F4ED;
+  --ivory-dark: #EEE9DF;
+  --bark:       #3A2E28;
+  --bark-light: #7A6558;
+  --mid:        #8A857F;
+  --warm-white: #FDFAF5;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ivory);
+  color: var(--bark);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Grain overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── Top accent bar ── */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--sage-deep) 0%, var(--sage-pale) 60%, transparent 100%);
+  z-index: 100;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed;
+  top: 2px; left: 0; right: 0;
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 99;
+  background: linear-gradient(to bottom, rgba(247,244,237,0.95) 0%, rgba(247,244,237,0) 100%);
+  backdrop-filter: blur(2px);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-wordmark {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--sage-deep);
+  letter-spacing: 0.01em;
+}
+
+.nav-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  font-style: italic;
+  color: var(--sage);
+  font-weight: 400;
+}
+
+/* ── Page layout ── */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
+}
+
+/* ── Left panel ── */
+.left {
+  padding: 120px 64px 80px 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+/* Decorative vertical line */
+.left::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 15%; bottom: 15%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--sage-pale) 30%, var(--sage-pale) 70%, transparent);
+}
+
+.eyebrow {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--sage);
+  font-weight: 400;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.1s both;
+}
+
+.headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 3.5vw, 54px);
+  font-weight: 400;
+  color: var(--sage-deep);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s both;
+}
+
+.headline em {
+  font-style: italic;
+  color: var(--sage-mid);
+}
+
+.subhead {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(17px, 1.8vw, 21px);
+  font-weight: 300;
+  color: var(--bark-light);
+  line-height: 1.75;
+  max-width: 460px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+/* Trust bar */
+.trust-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.5s both;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  font-weight: 400;
+  color: var(--mid);
+  letter-spacing: 0.3px;
+}
+
+.trust-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--sage-pale);
+  flex-shrink: 0;
+}
+
+/* ── Right panel ── */
+.right {
+  padding: 120px 72px 80px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--sage-mist) 0%, var(--ivory) 60%);
+  position: relative;
+}
+
+/* Decorative key illustration */
+.key-illustration {
+  position: absolute;
+  top: 80px;
+  right: 56px;
+  opacity: 0.12;
+}
+
+.form-label {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--sage-mid);
+  font-weight: 400;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.form-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 400;
+  color: var(--sage-deep);
+  line-height: 1.3;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+
+.form-subtext {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--bark-light);
+  line-height: 1.65;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.5s both;
+}
+
+/* ── Form ── */
+.epk-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.6s both;
+}
+
+.field-wrap {
+  position: relative;
+}
+
+.field-label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 7px;
+  font-weight: 400;
+}
+
+.field-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--sage-pale);
+  border-radius: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--bark);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+
+.field-input::placeholder {
+  color: var(--mid);
+  opacity: 0.6;
+}
+
+.field-input:focus {
+  border-color: var(--sage-mid);
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 0 0 3px rgba(74,107,78,0.07);
+}
+
+/* Phone field — hidden until checkbox checked */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--sage-deep);
+  color: var(--ivory);
+  border: none;
+  border-radius: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 4px;
+}
+
+.submit-btn:hover {
+  background: var(--sage-mid);
+  transform: translateY(-1px);
+}
+
+.submit-btn:active { transform: translateY(0); }
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.privacy-note {
+  font-size: 10.5px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ── Success state ── */
+.success-state {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease both;
+}
+
+.success-state.visible {
+  display: flex;
+  opacity: 1;
+}
+
+.success-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--sage-mist);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--sage-deep);
+  line-height: 1.3;
+}
+
+.success-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--bark-light);
+  line-height: 1.75;
+}
+
+/* ── Error state ── */
+.error-msg {
+  display: none;
+  font-size: 12px;
+  color: #8B4A42;
+  background: rgba(139,74,66,0.07);
+  border: 1px solid rgba(139,74,66,0.2);
+  padding: 10px 14px;
+  border-radius: 2px;
+  line-height: 1.5;
+}
+
+.error-msg.visible { display: block; }
+
+/* ── Footer strip ── */
+footer {
+  grid-column: 1 / -1;
+  padding: 24px 72px;
+  border-top: 1px solid var(--sage-mist);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--ivory);
+}
+
+.footer-left {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--mid);
+}
+
+.footer-right {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  font-style: italic;
+  color: var(--sage-pale);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 860px) {
+  .page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .left {
+    padding: 100px 32px 48px;
+    text-align: center;
+  }
+  .left::after { display: none; }
+  .subhead { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .trust-bar { justify-content: center; }
+
+  .right {
+    padding: 48px 32px 64px;
+  }
+
+  nav { padding: 20px 28px; }
+  footer { padding: 20px 28px; flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="30" height="19" viewBox="0 0 30 19" fill="none" aria-hidden="true">
+      <circle cx="8.5" cy="9.5" r="7.5" stroke="#4A6B4E" stroke-width="1.3"/>
+      <circle cx="8.5" cy="9.5" r="3" stroke="#8FAB92" stroke-width="0.9"/>
+      <line x1="16" y1="9.5" x2="29" y2="9.5" stroke="#4A6B4E" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="23" y1="9.5" x2="23" y2="15" stroke="#4A6B4E" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="29" y1="9.5" x2="29" y2="15" stroke="#4A6B4E" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-wordmark">EstatePassKey</span>
+  </a>
+  <span class="nav-tagline">The key to peace of mind.</span>
+</nav>
+
+<!-- Main -->
+<main class="page">
+
+  <!-- Left -->
+  <section class="left">
+    <p class="eyebrow">Coming soon</p>
+    <h1 class="headline">Everything your family needs to know.<br><em>Finally. In one place.</em></h1>
+    <p class="subhead">EstatePassKey is a private, offline estate organizer built for families who care about being prepared.</p>
+
+
+  </section>
+
+  <!-- Right — Form -->
+  <section class="right">
+
+    <!-- Decorative key -->
+    <svg class="key-illustration" width="120" height="76" viewBox="0 0 120 76" fill="none" aria-hidden="true">
+      <circle cx="34" cy="38" r="30" stroke="#2D3E30" stroke-width="3"/>
+      <circle cx="34" cy="38" r="12" stroke="#4A6B4E" stroke-width="2"/>
+      <line x1="64" y1="38" x2="118" y2="38" stroke="#2D3E30" stroke-width="3" stroke-linecap="round"/>
+      <line x1="91" y1="38" x2="91" y2="58" stroke="#2D3E30" stroke-width="3" stroke-linecap="round"/>
+      <line x1="118" y1="38" x2="118" y2="58" stroke="#2D3E30" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+
+    <p class="form-label">Free guide</p>
+    <h2 class="form-headline">The 12 things your family will need to find, and how to make sure they can.</h2>
+    <p class="form-subtext">Join the list and we will send you our free checklist. The one thing you can do today that makes everything easier for the people you love.</p>
+
+    <!-- Form -->
+    <form class="epk-form" id="epkForm" novalidate>
+
+      <div class="field-wrap">
+        <label class="field-label" for="epk-email">Email address</label>
+        <input class="field-input" type="email" id="epk-email" name="email"
+               placeholder="your@email.com" required autocomplete="email">
+      </div>
+
+
+      <div class="error-msg" id="epkError">Something went wrong. Please try again or email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ed8588818182ad889e998c99889d8c9e9e868894c38e8280">[email&#160;protected]</a>.</div>
+
+      <button class="submit-btn" type="submit" id="epkSubmit">
+        Send me the free guide
+      </button>
+
+      <p class="privacy-note">No spam. No selling your information. Unsubscribe any time.</p>
+    </form>
+
+    <!-- Success -->
+    <div class="success-state" id="epkSuccess">
+      <div class="success-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 10L8.5 14.5L16 6" stroke="#4A6B4E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="success-headline">You are on the list.</h3>
+      <p class="success-body">Check your inbox. Your free guide is on its way. We will be in touch when EstatePassKey is ready to ship.</p>
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span class="footer-left">estatepasskey.com</span>
+  </footer>
+
+</main>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Klaviyo form submission ──
+const form      = document.getElementById('epkForm');
+const submitBtn = document.getElementById('epkSubmit');
+const errorMsg  = document.getElementById('epkError');
+const success   = document.getElementById('epkSuccess');
+
+const KLAVIYO_KEY  = 'WpibQH';
+const KLAVIYO_LIST = 'EPK Pre-Launch';
+
+async function subscribeToKlaviyo(email) {
+  const properties = { '$email': email };
+
+  const payload = {
+    token: KLAVIYO_KEY,
+    properties,
+    ...(KLAVIYO_LIST ? { list_id: KLAVIYO_LIST } : {})
+  };
+
+  const res = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + KLAVIYO_KEY, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'revision': '2023-02-22'
+    },
+    body: JSON.stringify({
+      data: {
+        type: 'subscription',
+        attributes: {
+          list_id: '',
+          email,
+          custom_source: 'EPK Splash Page'
+        }
+      }
+    })
+  });
+
+  return res;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  errorMsg.classList.remove('visible');
+
+  const email = document.getElementById('epk-email').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errorMsg.textContent = 'Please enter a valid email address.';
+    errorMsg.classList.add('visible');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending\u2026';
+
+  try {
+    // Klaviyo subscribe endpoint
+    const res = await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'revision': '2023-02-22'
+      },
+      body: JSON.stringify({
+        data: {
+          type: 'subscription',
+          attributes: {
+            custom_source: 'EPK Splash Page',
+            profile: {
+              data: {
+                type: 'profile',
+                attributes: {
+                  email
+                }
+              }
+            }
+          }
+        }
+      })
+    });
+
+    if (res.ok || res.stat
