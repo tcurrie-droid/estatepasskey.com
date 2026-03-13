@@ -539,7 +539,6 @@ const submitBtn = document.getElementById('epkSubmit');
 const errorMsg  = document.getElementById('epkError');
 const success   = document.getElementById('epkSuccess');
 
-const KLAVIYO_KEY  = 'WpibQH';
 const KLAVIYO_LIST = 'WEC9Zf';
 
 form.addEventListener('submit', async (e) => {
@@ -557,36 +556,23 @@ form.addEventListener('submit', async (e) => {
   submitBtn.textContent = 'Sending…';
 
   try {
-    const res = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + KLAVIYO_KEY, {
+    const body = new URLSearchParams();
+    body.append('g', KLAVIYO_LIST);
+    body.append('email', email);
+    body.append('$source', 'EPK Splash Page');
+
+    const res = await fetch('https://manage.kmail-lists.com/ajax/subscriptions/subscribe', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'revision': '2023-02-22'
-      },
-      body: JSON.stringify({
-        data: {
-          type: 'subscription',
-          attributes: {
-            list_id: KLAVIYO_LIST,
-            custom_source: 'EPK Splash Page',
-            profile: {
-              data: {
-                type: 'profile',
-                attributes: {
-                  email: email
-                }
-              }
-            }
-          }
-        }
-      })
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
     });
 
-    if (res.ok || res.status === 202) {
+    const data = await res.json();
+    if (data.success) {
       form.style.display = 'none';
       success.classList.add('visible');
     } else {
-      throw new Error('API error ' + res.status);
+      throw new Error('Subscription failed');
     }
   } catch (err) {
     errorMsg.textContent = 'Something went wrong. Please try again.';
