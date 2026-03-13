@@ -533,45 +533,14 @@ footer {
 
 </main>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── Klaviyo form submission ──
+<script>
 const form      = document.getElementById('epkForm');
 const submitBtn = document.getElementById('epkSubmit');
 const errorMsg  = document.getElementById('epkError');
 const success   = document.getElementById('epkSuccess');
 
 const KLAVIYO_KEY  = 'WpibQH';
-const KLAVIYO_LIST = 'EPK Pre-Launch';
-
-async function subscribeToKlaviyo(email) {
-  const properties = { '$email': email };
-
-  const payload = {
-    token: KLAVIYO_KEY,
-    properties,
-    ...(KLAVIYO_LIST ? { list_id: KLAVIYO_LIST } : {})
-  };
-
-  const res = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + KLAVIYO_KEY, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'revision': '2023-02-22'
-    },
-    body: JSON.stringify({
-      data: {
-        type: 'subscription',
-        attributes: {
-          list_id: '',
-          email,
-          custom_source: 'EPK Splash Page'
-        }
-      }
-    })
-  });
-
-  return res;
-}
+const KLAVIYO_LIST = 'WEC9Zf';
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -585,11 +554,10 @@ form.addEventListener('submit', async (e) => {
   }
 
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Sending\u2026';
+  submitBtn.textContent = 'Sending…';
 
   try {
-    // Klaviyo subscribe endpoint
-    const res = await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_KEY}`, {
+    const res = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + KLAVIYO_KEY, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -599,12 +567,13 @@ form.addEventListener('submit', async (e) => {
         data: {
           type: 'subscription',
           attributes: {
+            list_id: KLAVIYO_LIST,
             custom_source: 'EPK Splash Page',
             profile: {
               data: {
                 type: 'profile',
                 attributes: {
-                  email
+                  email: email
                 }
               }
             }
@@ -613,4 +582,25 @@ form.addEventListener('submit', async (e) => {
       })
     });
 
-    if (res.ok || res.stat
+    if (res.ok || res.status === 202) {
+      form.style.display = 'none';
+      success.classList.add('visible');
+    } else {
+      throw new Error('API error ' + res.status);
+    }
+  } catch (err) {
+    errorMsg.textContent = 'Something went wrong. Please try again.';
+    errorMsg.classList.add('visible');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send me the free guide';
+  }
+});
+
+// Fade-up scroll animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
